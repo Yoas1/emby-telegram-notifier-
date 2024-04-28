@@ -4,6 +4,10 @@ simple webhook server to emby Telegram notification
 ### Features
  * Integrates with the webhook plugin.
  * Telegram notifications with media images and summary when a new movie or series is added to Emby.
+ * Some pictures:<br>
+ ![alt text](./pic/1.png) ![alt text](./pic/2.png)
+
+# Installation
 
 ## Create a new telegram-bot
 **1** - Search Botfather in telegram. <br>

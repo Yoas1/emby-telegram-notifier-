@@ -15,7 +15,7 @@ def parser_send(response, t_id, t_token, e_server):
     url_send_photo = f"https://api.telegram.org/bot{t_token}/sendPhoto"
     url_send_message = f"https://api.telegram.org/bot{t_token}/sendMessage"
 
-    if text.startswith("New") & text.endswith('on emby-server'):
+    if text.startswith("New"):
         desc = response['Description']
         item = response['Item']
         photo_id = item['Id']
@@ -77,8 +77,8 @@ def parser_send(response, t_id, t_token, e_server):
             series_name = response['SeriesName']
             season = response['SeasonName']
             episode_name = response['Name']
-            episode_nun = response['IndexNumber']
-            text = f'❎ Marked-unplayed: {series_name} {season} episode {episode_nun} - {episode_name}'
+            episode_num = response['IndexNumber']
+            text = f'❎ Marked-unplayed: {series_name} {season} episode {episode_num} - {episode_name}'
         url = f"https://api.telegram.org/bot{t_token}/sendMessage?chat_id={t_id}&text={text}"
         requests.post(url)
     elif text.startswith('Please Restart'):

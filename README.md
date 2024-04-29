@@ -43,7 +43,7 @@ services:
 ```
 * yoas1/flask-base [Dockerfile](https://github.com/Yoas1/dockerfiles/blob/main/flask_base_docker_image/Dockerfile).<br>
 
-**3** - Create emby/jellyfin notification:<br>
+**3** - Create emby notification:<br>
 * Go to Settings --> Notifications
 * Add Notifications --> select **Webhook**:
     * Name: name to your notification

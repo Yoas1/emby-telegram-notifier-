@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 t_id = environ['TID']
 t_token = environ['TT']
+e_server = environ['E_SERVER']
 list_id = emby_func.convert_list(t_id)
 
 
@@ -17,7 +18,7 @@ def webhook():
         data = request.json
         for i in range(len(list_id)):
             send_id = list_id[i]
-            emby_func.parser_send(data, send_id, t_token)
+            emby_func.parser_send(data, send_id, t_token, e_server)
         return 'success', 200
     else:
         abort(400)

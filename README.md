@@ -38,6 +38,7 @@ services:
     environment:
       TID: <telegram-id1> <telegram-id2>
       TT: <telegram-bot-token>
+      E_SERVER: <emby-server-url>
     restart: always
 ```
 * yoas1/flask-base [Dockerfile](https://github.com/Yoas1/dockerfiles/blob/main/flask_base_docker_image/Dockerfile).<br>

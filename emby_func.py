@@ -6,7 +6,7 @@ def convert_list(string):
     return li
 
 
-def parser_send(response, t_id, t_token):
+def parser_send(response, t_id, t_token, e_server):
     response = response
     t_id = t_id
     t_token = t_token
@@ -19,7 +19,7 @@ def parser_send(response, t_id, t_token):
         desc = response['Description']
         item = response['Item']
         photo_id = item['Id']
-        base_photo_url = (f"http://192.168.1.133:8097/Items/{photo_id}/Images/Primary" if photo_id else None)
+        base_photo_url = (f"http://{e_server}/Items/{photo_id}/Images/Primary" if photo_id else None)
         image_response = requests.get(base_photo_url)
         image = ("photo.jpg", image_response.content, "image/jpeg")
         data = {"chat_id": t_id, "caption": text + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}

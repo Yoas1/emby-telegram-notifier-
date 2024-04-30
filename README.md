@@ -22,7 +22,7 @@ simple webhook server to emby Telegram notification
 **2** - Run the server with docker:<br>
 docker run:
 ```
-docker run -d --restart=always -v </path/to/clone/dir>:/App -e TID=<telegram-id1> <telegram-id2> -e TT=<telegram-bot-token> -e E_SERVER=<emby-server-url> -p 5000:5000 yoas1/flask-base:1.0
+docker run -d --restart=always -v </path/to/clone/dir>:/App -e TID=<telegram-id1> <telegram-id2> -e TT=<telegram-bot-token> -e E_SERVER=<http(s)://emby-server-url> -p 5000:5000 yoas1/flask-base:1.0
 ```
 docker compose:
 ```
@@ -38,7 +38,7 @@ services:
     environment:
       TID: <telegram-id1> <telegram-id2>
       TT: <telegram-bot-token>
-      E_SERVER: <emby-server-url>
+      E_SERVER: <http(s)://emby-server-url>
     restart: always
 ```
 * yoas1/flask-base [Dockerfile](https://github.com/Yoas1/dockerfiles/blob/main/flask_base_docker_image/Dockerfile).<br>

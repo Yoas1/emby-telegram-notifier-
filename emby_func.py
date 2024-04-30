@@ -15,7 +15,7 @@ def parser_send(response, t_id, t_token, e_server):
     url_send_photo = f"https://api.telegram.org/bot{t_token}/sendPhoto"
     url_send_message = f"https://api.telegram.org/bot{t_token}/sendMessage"
 
-    if text.startswith("New"):
+    if text.startswith("New") or text.startswith("Neu"):
         desc = response['Description']
         item = response['Item']
         photo_id = item['Id']

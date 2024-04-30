@@ -19,7 +19,7 @@ def parser_send(response, t_id, t_token, e_server):
         desc = response['Description']
         item = response['Item']
         photo_id = item['Id']
-        base_photo_url = (f"{e_server}/Items/{photo_id}/Images/Primary" if photo_id else None)
+        base_photo_url = (f"{e_server}/emby/Items/{photo_id}/Images/Primary" if photo_id else None)
         image_response = requests.get(base_photo_url)
         image = ("photo.jpg", image_response.content, "image/jpeg")
         data = {"chat_id": t_id, "caption": text + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}

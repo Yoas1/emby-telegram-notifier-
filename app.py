@@ -90,7 +90,10 @@ def send_message():
 
 def lib_new():
     text_new = response['Title']
-    desc = response['Description']
+    try:
+        desc = response['Description']
+    except KeyError:
+        desc = "**Can't get a description from the server, edit its identity manually**"
     item = response['Item']
     photo_id = item['Id']
     base_photo_url = (f"{e_server}/emby/Items/{photo_id}/Images/Primary" if photo_id else None)

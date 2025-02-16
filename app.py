@@ -1,13 +1,48 @@
 from flask import Flask, request, abort
 import requests
 from os import environ
+import yaml
 
 app = Flask(__name__)
-t_id = environ['TID']
-t_token = environ['TT']
-e_server = environ['E_SERVER']
+#t_id = environ['TID']
+#t_token = environ['TT']
+#e_server = environ['E_SERVER']
+
+
+def get_token():
+  with open("/config/config.yaml") as data:
+    info_data = yaml.safe_load(data)
+  token = info_data["token"]
+  token = token[0]
+  return token
+
+
+def get_emby_url():
+  with open("/config/config.yaml") as data:
+    info_data = yaml.safe_load(data)
+  server = info_data["emby-server"]
+  server = server[0]
+  return server
+
+
+t_token = get_token()
 url_send_photo = f"https://api.telegram.org/bot{t_token}/sendPhoto"
 url_send_message = f"https://api.telegram.org/bot{t_token}/sendMessage"
+e_server = get_emby_url()
+
+
+def get_admins():
+  with open("/config/config.yaml") as data:
+    info_data = yaml.safe_load(data)
+  admins = info_data["admins"]
+  return admins
+
+
+def get_users():
+  with open("/config/config.yaml") as data:
+    info_data = yaml.safe_load(data)
+  users = info_data["users"]
+  return users
 
 
 def convert_list(string):
@@ -125,13 +160,13 @@ def switch_case(argument):
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    global list_id, response, send_id
+    global list_id, response, send_id, token
     if request.method == 'POST':
         response = request.json
-        list_id = convert_list(t_id)
-        for i in range(len(list_id)):
-            send_id = list_id[i]
-            get_event_now = response['Event']
+        get_event_now = response['Event']
+        admin_id = get_admins()
+        for i in range(len(admin_id)):
+            send_id = admin_id[i]
             print(get_event_now)
             arg_check = ('playback.start',
                          'playback.stop',
@@ -152,6 +187,14 @@ def webhook():
                 switch_case(get_event_now)()
             else:
                 send_message()
+        user_id = get_users()
+        for i in range(len(user_id)):
+            send_id = user_id[i]
+            arg_check = ('library.new',
+                         'library.deleted'
+            )
+            if get_event_now.startswith(arg_check):
+                switch_case(get_event_now)()
         return 'success', 200
     else:
         abort(400)

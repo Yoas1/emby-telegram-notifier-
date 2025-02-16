@@ -14,34 +14,33 @@ simple webhook server to emby Telegram notification
 **2** - Send command /newbot to Botfather. <br>
 **3** - Give the Telegram bot a name. <br>
 **4** - Give the Telegram bot a unique username, it must end in "bot". <br>
-**5** - Save the Telegram bot's access token, we will use it later in the env configuration. <br>
+**5** - Save the Telegram bot's access token, we will use it later in the configuration file. <br>
 **6** - Get your chat ID by starting a chat with your bot, sending a message and then visiting https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates to find the chat ID in the returned JSON.
 
 ## Run the webhook-server
-**1** - Clone this repo. <br>
-**2** - Run the server with docker:<br>
+**1** - Create config.yaml file like example in this repo. <br>
+&nbsp;&nbsp;&nbsp;**1.1** - You can add admins to get all notification from emby-server.<br>
+&nbsp;&nbsp;&nbsp;**1.2** - You can add users to get new/delete items from emby-server.<br>
+**(you can add users while the service is still running)**<br>
+**2** - Run the server with docker/podman:<br>
 docker run:
 ```
-docker run -d --restart=always -v </path/to/clone/dir>:/App -e TID=<telegram-id1> <telegram-id2> -e TT=<telegram-bot-token> -e E_SERVER=<http(s)://emby-server-url> -p 5000:5000 yoas1/flask-base:1.0
+docker run -d --restart=always -v </path/to/config/dir>:/config -p 5000:5000 yoas1/emby-telegram-notifier:v0.1
 ```
 docker compose:
 ```
 version: "3.5"
 services:
-  webhook-server:
-    container_name: webhook-server
-    image: yoas1/flask-base:1.0
+  emby-webhook:
+    container_name: emby-webhook
+    image: yoas1/emby-telegram-notifier:v0.1
     volumes:
-      - </path/to/clone/dir>:/App
+      - </path/to/config/dir>:/config
     ports:
       - 5000:5000
-    environment:
-      TID: <telegram-id1> <telegram-id2>
-      TT: <telegram-bot-token>
-      E_SERVER: <http(s)://emby-server-url>
     restart: always
 ```
-* yoas1/flask-base [Dockerfile](https://github.com/Yoas1/dockerfiles/blob/main/flask_base_docker_image/Dockerfile).<br>
+<br>
 
 **3** - Create emby notification:<br>
 * Go to Settings --> Notifications

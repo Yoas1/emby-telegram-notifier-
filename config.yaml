@@ -2,8 +2,9 @@ token:
   - <telegram-bot-token>
 emby-server:
   - http://<emby-server-url>:<port>
-admin:
-  - <user-id-admin>
+admins:
+  - <telegram-chatid-admin-1>
+  - <telegram-chatid-admin-1>
 users:
-  - <user-id-1>
-  - <user-id-2>
+  - <telegram-chatid-user-1>
+  - <telegram-chatid-user-2>

@@ -4,9 +4,6 @@ from os import environ
 import yaml
 
 app = Flask(__name__)
-# t_id = environ['TID']
-# t_token = environ['TT']
-# e_server = environ['E_SERVER']
 
 
 def get_token():

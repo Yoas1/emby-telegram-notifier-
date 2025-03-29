@@ -2,7 +2,7 @@
 simple webhook server to emby Telegram notification
 
 ### Updates
-#### version: v0.3:
+#### version: v0.3
  * Add movies/series Community Rating.
  * For admins: Users add to favorites notification.
 

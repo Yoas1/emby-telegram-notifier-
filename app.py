@@ -87,6 +87,19 @@ def update():
   requests.post(url)
 
 
+def rate():
+    global response
+    user = response['User']['Name']
+    item = response['Item']['Name']
+    add_favorite = response['Item']['UserData']['IsFavorite']
+    if add_favorite == True:
+        text = user + '\n👍🏻 added: ' + item + ' to favorites'
+    elif add_favorite == False:
+        text = user + '\n👎🏻 remove: ' + item + ' from favorites'
+    url = f"https://api.telegram.org/bot{t_token}/sendMessage?chat_id={send_id}&text={text}"
+    requests.post(url)
+
+
 def marked():
   global response, text
   get_event_marked = response["Event"]
@@ -141,16 +154,19 @@ def lib_new():
     )
   item = response["Item"]
   photo_id = item["Id"]
+  try:
+    rating = item['CommunityRating']
+  except:
+    pass
   base_photo_url = (
     f"{e_server}/emby/Items/{photo_id}/Images/Primary" if photo_id else None
   )
   image_response = requests.get(base_photo_url)
   image = ("photo.jpg", image_response.content, "image/jpeg")
-  data_new = {
-    "chat_id": send_id,
-    "caption": text_new + "\n\nDescription: " + desc,
-    "parse_mode": "Markdown",
-  }
+  try:
+    data_new = {"chat_id": send_id, "caption": text_new + '\n' + 'Rating: ' + str(rating) + '🌟' + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}
+  except:
+    data_new = {"chat_id": send_id, "caption": text_new + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}
   requests.post(url_send_photo, data=data_new, files={"photo": image})
 
 
@@ -170,6 +186,7 @@ def switch_case(argument):
     "system.serverrestartrequired": send_message,
     "plugins.pluginuninstalled": send_message,
     "plugins.plugininstalled": send_message,
+    'item.rate': rate,
   }
   return switcher.get(argument, "")
 
@@ -200,6 +217,7 @@ def webhook():
           "system.serverrestartrequired",
           "plugins.pluginuninstalled",
           "plugins.plugininstalled",
+          'item.rate',
         )
         if get_event_now.startswith(arg_check):
           switch_case(get_event_now)()

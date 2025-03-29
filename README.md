@@ -1,6 +1,11 @@
 # Emby-Telegram-Notifier
 simple webhook server to emby Telegram notification
 
+### Updates
+#### version: v0.3:
+ * Add movies/series Community Rating.
+ * For admins: Users add to favorites notification.
+
 ### Features
  * Integrates with the webhook plugin.
  * Telegram notifications with media images and summary when a new movie or series is added to Emby.
@@ -25,7 +30,7 @@ simple webhook server to emby Telegram notification
 **2** - Run the server with docker/podman:<br>
 docker run:
 ```
-docker run -d --restart=always -v </path/to/config/dir>:/config -p 5000:5000 yoas1/emby-telegram-notifier:v0.1
+docker run -d --restart=always -v </path/to/config/dir>:/config -p 5000:5000 yoas1/emby-telegram-notifier:v0.3
 ```
 docker compose:
 ```
@@ -33,7 +38,7 @@ version: "3.5"
 services:
   emby-webhook:
     container_name: emby-webhook
-    image: yoas1/emby-telegram-notifier:v0.1
+    image: yoas1/emby-telegram-notifier:v0.3
     volumes:
       - </path/to/config/dir>:/config
     ports:

@@ -26,6 +26,8 @@ t_token = get_token()
 url_send_photo = f"https://api.telegram.org/bot{t_token}/sendPhoto"
 url_send_message = f"https://api.telegram.org/bot{t_token}/sendMessage"
 e_server = get_emby_url()
+item_id = ""
+
 
 
 def get_admins():
@@ -145,6 +147,7 @@ def send_message():
 
 
 def lib_new():
+  global item_id
   text_new = response["Title"]
   try:
     desc = response["Description"]
@@ -167,7 +170,9 @@ def lib_new():
     data_new = {"chat_id": send_id, "caption": text_new + '\n' + 'Rating: ' + str(rating) + '🌟' + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}
   except:
     data_new = {"chat_id": send_id, "caption": text_new + '\n\nDescription: ' + desc, "parse_mode": "Markdown"}
-  requests.post(url_send_photo, data=data_new, files={"photo": image})
+  if item_id != response["Item"]["Id"]:
+    item_id = response["Item"]["Id"]
+    requests.post(url_send_photo, data=data_new, files={"photo": image})
 
 
 def switch_case(argument):
